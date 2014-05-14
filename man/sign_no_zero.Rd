@@ -1,0 +1,26 @@
+\name{sign_no_zero}
+\alias{sign_no_zero}
+\title{Get binary sign of a variable, or array}
+\usage{
+sign_no_zero(x)
+}
+\arguments{
+  \item{x}{a vector or array}
+}
+\value{
+a vector or array telling if each element of x is greater
+than or equal to zero. This array will be of the same
+dimension as \code{x}, but with elements -1 for negative
+values of \code{x}, and elements +1 for positive values of
+\code{x}
+}
+\description{
+Get binary sign of a variable, or array
+}
+\examples{
+sign_no_zero(-2:2) #returns -1 -1  1  1  1
+}
+\seealso{
+\code{\link{sign}}
+}
+

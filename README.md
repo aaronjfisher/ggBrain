@@ -1,7 +1,7 @@
 ggBrain
 =======
 
-Simple to use helper functions for creating pretty brain images with ggplot. The primary workhorse function is `ggBrain`, which is documented in the vignette. Some of the images generated in the vignette are shown below.
+An R package of simple helper functions for creating brain image figures with ggplot. The primary workhorse function is `ggBrain`, which is documented in the vignette. Some of the images generated in the vignette are shown below.
 
 
 ### To install

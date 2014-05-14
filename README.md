@@ -1,7 +1,7 @@
 ggBrain
 =======
 
-This package helps to create pretty brain images with ggplot. The primary function of interest is the `ggBrain` function, which is documented in the vignette. Some of the images generated in the vignette are shown below.
+Simple to use helper functions for creating pretty brain images with ggplot. The primary workhorse function is `ggBrain`, which is documented in the vignette. Some of the images generated in the vignette are shown below.
 
 
 ### To install
@@ -30,7 +30,7 @@ help(package=ggBrain)
 ####Tri-planar cross-hairs
 <img src="vignettes/figure/tri-panel2.png" border="5" />
 
-####Basic, single panel plots
+####Basic, single panel figures
 <img src="vignettes/figure/single-plots-abs-val.png" border="5" />
 
 

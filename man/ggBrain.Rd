@@ -6,8 +6,10 @@
 ggBrain(brains, template = NULL, mar = 1, mar_ind, row_ind = rep(1,
   length(mar_ind)), col_ind = rep(1, length(mar_ind)),
   col_template = rev(brewer.pal(8, "Greys")), type = "signed",
-  binary_color = "darkred", fix_ratio = TRUE, tri_planar = FALSE,
-  lines_color = "white", center_coords = TRUE, lines_mat = NULL, ...)
+  binary_color = "darkred", combine_legend = TRUE, breaks_legend = 8,
+  digits_legend = 2, signed_colors = brewer.pal(9, "RdYlBu")[c(1, 9)],
+  fix_ratio = TRUE, tri_planar = FALSE, lines_color = "white",
+  center_coords = TRUE, lines_mat = NULL, ...)
 
 getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
   length(mar_ind)), col_ind = rep(1, length(mar_ind)), brain_ind = rep(1,
@@ -16,8 +18,8 @@ getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
 }
 \arguments{
   \item{brains}{A list of 4-D arrays of brain images, with
-  time on the fourth dimension. Alternatively, list of 3-D
-  arrays, single 3-D, or a single 4-D array can be
+  time on the fourth dimension. Alternatively, a list of
+  3-D arrays, a single 3-D, or a single 4-D array can be
   entered.}
 
   \item{mask}{A 3-D binary array of which voxels in the
@@ -53,14 +55,14 @@ getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
 
   \item{brain_ind}{a vector of the same length as
   \code{mar}. The \eqn{j^{th}} element of \code{brain_ind}
-  tells the index number which highlights the appropriate
-  brain from the list \code{brains} to be plotted in the
-  \eqn{j^{th}} panel.}
+  tells the index number of the appropriate brain image to
+  be plotted in the \eqn{j^{th}} panel, from the list
+  \code{brains}.}
 
   \item{time}{a vector of the same length as \code{mar},
-  used for plotting snapshots 4-D fMRI data over time. The
-  \eqn{j^{th}} element of \code{time} tells the time index
-  to be used for the \eqn{j^{th}} panel.}
+  used for plotting snapshots of 4-D fMRI data over time.
+  The \eqn{j^{th}} element of \code{time} tells the time
+  index to be used for the \eqn{j^{th}} panel.}
 
   \item{col_template}{a vector of colors to be used for
   displaying the template brain image.}
@@ -69,9 +71,9 @@ getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
   'signed', 'positive', 'binary' or 'structural'. These
   types should be used when the objects in \code{brains}
   are, respectively, images of voxelwise statistics that
-  can be positive or negative (i.e. seed correlations);
+  can be positive or negative (e.g. seed correlations);
   images of voxelwise statistics that are all positive
-  (i.e. p-values); binary masks to be shown on top of
+  (e.g. p-values); binary masks to be shown on top of
   tempaltes; or structural brain images that do not contain
   voxelwise statistics. When setting
   \code{type='structural'} there is no need to input a
@@ -79,8 +81,38 @@ getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
 
   \item{binary_color}{the color to be used for plotting
   either binary masks or voxelwise, positive statistics
-  (i.e. p-values). This argument will be used when
-  \code{type} is set to either 'positive' or 'binary'.}
+  (e.g. p-values). This argument will be used when
+  \code{type} is set to either 'positive' or 'binary'. The
+  color of 'signed' type figures can be changed using the
+  standard ggplot functions for \code{fill} (see
+  \code{\link[ggplot2]{scale_fill_gradient2}}).}
+
+  \item{combine_legend}{when \code{type} is set to
+  \code{'signed'}, the default approach \code{ggBrain}
+  takes is to map absolute value of the voxelwise statistic
+  to alpha blending, and sign of the voxelwise statistic to
+  fill. This results in two separate legends. When the
+  \code{combine_legend} is set to TRUE, \code{ggBrain}
+  creates a new custom scale that combines both binary
+  coloring for sign, and gradual alpha blending for
+  absolute value. Each voxel is binned according to it's
+  value. The legend created shows the upper bounds for each
+  bin. This argument is only used when \code{type} is set
+  to \code{'signed'}.}
+
+  \item{breaks_legend}{the number of bins to use in
+  creating a combined legend. This is only used when
+  \code{combine_legend} is set to \code{TRUE}.}
+
+  \item{digits_legend}{the number of digits to be used in
+  the combined legend for 'signed' plots. This is only used
+  when \code{combine_legend} is set to \code{TRUE}.}
+
+  \item{signed_colors}{a vector of length two, with entries
+  corresponding to the colors for negative and positive
+  values of the overlaying voxelwise statistic. This
+  argument is only used when \code{type} is set to
+  \code{'signed'}.}
 
   \item{fix_ratio}{whether the aspect ratio should be
   fixed, to avoid warping of images.}
@@ -95,14 +127,14 @@ getBrainFrame(brains, mask = NULL, mar = 1, mar_ind, row_ind = rep(1,
   \code{tri_planar=TRUE}.}
 
   \item{center_coords}{whether the brains should be
-  centered. If TRUE, axis titles will not be shown. If
-  FALSE, axis titles will correspond to slice number}
+  centered. If TRUE, axis tick marks will not be shown. If
+  FALSE, axis tick marks will correspond to slice number}
 
   \item{all_brain_and_time_inds_one}{a parameter specific
   to \code{getBrainFrame}, which can generally be ignored
   by the user. This arguments helps \code{getBrainFrame} be
   called from different contexts within \code{ggBrain},
-  particularly when contructing ggplot images for the
+  particularly when contructing ggplot objects for the
   template brain. If set to \code{TRUE}, all elements of
   \code{brain_ind} and \code{time} will be forced to equal
   1.}
@@ -133,12 +165,16 @@ more control over the plotting procedure hard-coded by
 \description{
 \code{ggBrain} creates ggplot brain images with minimal
 user input. This function calls \code{getBrainFrame}, which
-generates a data frame for use in ggplot objects. The
+generates a data frame for use in ggplot objects. Aesthetic
+changes to the resulting figures can be made with standard
+ggplot functions, such as
+\code{\link[ggplot2]{scale_fill_gradient2}}. The
 \code{getBrainFrame} function can also be directly accessed
 by the user, for a deeper control of aesthetics.
 }
 \examples{
 \dontrun{
+
 
 #####################
 # Load data
@@ -173,18 +209,19 @@ library(ggplot2)
 
 # structural image (type = 'structural')
 dd<-ggBrain(brains=hd_template,mask=hd_template>0,mar=3,mar_ind=93,type='structural')
+dd
 #now add aethetic changes with conventional ggplot code.
 dd + scale_fill_continuous(low="black", high="white")+ theme_black_bg()
 
 # seed correlation (type = 'signed')
 dd<-ggBrain(template=template,brains=s_map1,mask=mask,mar=3,mar_ind=30,type='signed')
-dd+scale_alpha(range=c(0,1))+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+ theme_bw()+theme_no_ticks()
+dd
 
 # positive voxelwise statistics (type='positive').
 # Here we use absolute value of seed correlation,
 # but a p-value map might also be applied.
 dd<-ggBrain(template=template,brains=abs(s_map1),mask=mask,mar=3,mar_ind=30,type='positive')
-dd+scale_alpha(range=c(0,1))+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+theme_black_bg()
+dd + theme_black_bg() + scale_alpha(range=c(0,1)) #note, for type='signed', a scale is already included
 
 # Further customization can be done by using
 # getBrainFrame directly
@@ -200,15 +237,14 @@ dd<-ggBrain(brains=s_map1,template=template,
 	row_ind=	c(1,1,2),
 	col_ind=	c(2,1,1),
 	tri_planar=TRUE, lines_color='black',mask=mask)
-dd+ scale_alpha(range=c(0,1))+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+
-		theme_bw() +theme_no_ticks()
+dd + theme_bw() +theme_no_ticks()
 
 
 ###################
 # use grid.arrange to show the seed mask and the
 # seed correlation.
-# Since these are on different scales, they shouldn't
-# be combined into one ggplot object
+# Since these are on different scales, we use
+# grid.arrange to show them separately.
 mar   =   c(1,2,3)
 col_ind = factor(c(1,2,3),labels=c('Saggital','Coronal','Transverse'))
 row_ind = c(1,1,1)
@@ -220,8 +256,7 @@ dd_mask<-ggBrain(brains=seed_mask,template=template,mar=mar,mar_ind=mar_ind,row_
 
 
 dd_1<-ggBrain(brains=s_map1,template=template,mar=mar,mar_ind=mar_ind,row_ind=row_ind,
-		col_ind=col_ind,tri_planar=TRUE,mask=mask)+
-	scale_alpha(range=c(0,1))+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+theme_black_bg()
+		col_ind=col_ind,tri_planar=TRUE,mask=mask) + theme_black_bg()
 
 library(gridExtra)
 grid.arrange(dd_mask,dd_1)
@@ -239,8 +274,7 @@ dd<-ggBrain(brains=list(s_map1,s_map2),
 	row_ind=c('Subject 1','Subject 1','Subject 1','Subject 2','Subject 2','Subject 2'),
 	col_ind=factor(c(1,2,3,1,2,3),labels=c('Saggital','Coronal','Transverse')),
 	mask=mask)
-dd+scale_alpha(range=c(0,1))+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+
-		ggtitle('Seed correlations for two subjects')+ theme_black_bg()
+dd + ggtitle('Seed correlations for two subjects')+ theme_black_bg()
 
 
 
@@ -263,8 +297,8 @@ dd+ theme_black_bg()
 
 
 
-# We can also add a key to the above plot,
-# using lines_mat
+# We can also add a key to the above type of plot,
+# using the lines_mat argument
 mar=c(3,3,3,3,3,3,3,1)
 mar_ind=c(floor(seq(140,50,length=7)),88)
 col_ind=c(1,1,1,1,2,2,2,2)
@@ -289,7 +323,7 @@ lines_mat<-cbind(8,mar,mar_ind)[1:7,]
 dd<-ggBrain(brains=s_map1,template=template,mar=mar,mar_ind=mar_ind,row_ind=row_ind,
 		col_ind=col_ind,mask=mask,lines_mat=lines_mat)
 
-dd+labs(fill='Sign',alpha='Magnitude\\n(opacity)')+scale_alpha(range=c(0,1))+ theme_black_bg()
+dd + theme_black_bg()
 
 
 
@@ -301,8 +335,19 @@ dd<-ggBrain(brains=nii1_trunc,template=template,
 	row_ind=rep(1,4),
 	col_ind=paste('time',1:4),
 	time=1:4)
-dd + theme_black_bg()+ labs(fill='Sign',alpha='Magnitude\\n(opacity)')+scale_alpha(range=c(0,1))
+dd + theme_black_bg()
 
-}
+# Note, to change legend labels for figures of type='signed',
+# we must change both the label for fill and for alpha,
+# as ggBrain combines these two aesthetics into a custom,
+# hardcoded legend (when combine_legend=TRUE). If separate
+# labels are given for fill and alpha, the two aesthetic dimensions
+# will appear in separate legends.
+# For example:
+dd <- ggBrain(template=template,brains=s_map1,mask=mask,mar=3,mar_ind=30,type='signed')
+# ex1:
+dd + labs(fill='new_label',alpha='new_label')
+# ex2:
+dd + labs(fill='sign',alpha='abs_value')
 }
 

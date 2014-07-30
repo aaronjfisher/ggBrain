@@ -161,7 +161,8 @@ ggLines<-function(color='white',...){
 #' @return
 #' \code{ggBrain} returns a ggplot object showing the desired brain images. Further aesthetic changes to the plotting can be added to this ggplot object using the usual ggplot notation (see examples). \code{getBrainFrame} outputs a "long" dataframe which can be used in ggplot objects. Accessing this dataframe directly allows the users to have more control over the plotting procedure hard-coded by \code{ggBrain}.
 #' @aliases getBrainFrame 
-#' @examples \dontrun{
+#' @examples 
+#' \dontrun{
 #' 
 #' 
 #' #####################
@@ -337,7 +338,7 @@ ggLines<-function(color='white',...){
 #' dd + labs(fill='new_label',alpha='new_label')
 #' # ex2:
 #' dd + labs(fill='sign',alpha='abs_value')
-#' 
+#' }
 ggBrain<-function(brains,template=NULL,mar=1,mar_ind,row_ind=rep(1,length(mar_ind)),col_ind=rep(1,length(mar_ind)),col_template=rev(brewer.pal(8,'Greys')),type='signed',binary_color='darkred',combine_legend=TRUE,breaks_legend=8,digits_legend=2,signed_colors=brewer.pal(9,'RdYlBu')[c(1,9)],fix_ratio=TRUE,tri_planar=FALSE,lines_color='white',center_coords=TRUE,lines_mat=NULL, ...){
 	
 	if(class(brains)!='list') brains<-list(brains) #also in getBrainFrame, but we need it here too.

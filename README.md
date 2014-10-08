@@ -11,7 +11,7 @@ install.packages("devtools")
 
 ## main package
 library(devtools)
-install_github('ggBrain','aaronjfisher')
+install_github('ggBrain','aaronjfisher',build_vignettes=TRUE)
 
 ## to access help pages
 library(ggBrain)

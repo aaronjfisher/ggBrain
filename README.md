@@ -1,12 +1,17 @@
 ggBrain
 ========
 [![Build Status](https://travis-ci.org/aaronjfisher/ggBrain.png?branch=master)](https://travis-ci.org/aaronjfisher/ggBrain)
-
+  [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/aaronjfisher/ggBrain?branch=master&svg=true)](https://ci.appveyor.com/project/aaronjfisher/ggBrain)
+  
+`muschellij2` badges:
+[![Build Status](https://travis-ci.org/muschellij2/ggBrain.png?branch=master)](https://travis-ci.org/muschellij2/ggBrain)
+  [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/muschellij2/ggBrain?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/ggBrain)
+  
 An R package of simple helper functions for creating brain image figures with ggplot. The primary workhorse function is `ggBrain`, which is documented in the vignette. Some of the images generated in the vignette are shown below.
 
 
 ### To install
-```S
+```r
 ## if needed
 install.packages("devtools")
 

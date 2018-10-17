@@ -27,16 +27,16 @@ help(package=ggBrain)
 
 ### Sample images from vignette
 
-####Structural images
+#### Structural images
 <img src="vignettes/figure/line-key-str.png" border="5" />
 
-####Comparing seed maps across two subjects
+#### Comparing seed maps across two subjects
 <img src="vignettes/figure/2brain_compare.png" border="5" />
 
-####Tri-planar cross-hairs
+#### Tri-planar cross-hairs
 <img src="vignettes/figure/tri-panel2.png" border="5" />
 
-####Basic, single panel figures
+#### Basic, single panel figures
 <img src="vignettes/figure/single-plots-abs-val.png" border="5" />
 
 

@@ -2,3 +2,7 @@
 
 language: r
 
+r_packages:
+  - oro.nifti
+  - gridExtra
+  - rgl

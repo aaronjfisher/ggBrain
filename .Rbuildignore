@@ -1,1 +1,6 @@
 ^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+
+R/ggBrain\.R
+^appveyor\.yml$

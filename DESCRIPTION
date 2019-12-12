@@ -1,8 +1,11 @@
 Package: ggBrain
 Title: ggplot Brain Images
-Description: Plotting brain images with ggplot
-Version: 0.1
-Author: Aaron Fisher <fisher@jhu.edu>
+Description: Plotting brain images with ggplot2 using 'nifti' objects.  Useful
+    for integrating with a tidy image framework.
+Version: 0.1.2
+Authors@R: c(person(given = "Aaron", family = "Fisher", email = "fisher@jhu.edu",
+    role = c("aut", "cre")),
+    person(given = "John", family = "Muschelli", role = c("ctb")))
 Maintainer: Aaron Fisher <fisher@jhu.edu>
 VignetteBuilder: knitr
 Depends:
@@ -17,3 +20,5 @@ Suggests:
     oro.nifti
 License: GPL-2
 LazyData: true
+RoxygenNote: 6.0.1.9000
+Encoding: UTF-8

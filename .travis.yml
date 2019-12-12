@@ -2,7 +2,6 @@
 
 language: r
 
-r_packages:
-  - oro.nifti
-  - gridExtra
-  - rgl
+ before_install:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start

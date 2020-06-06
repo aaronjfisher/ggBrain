@@ -3,10 +3,10 @@ Title: ggplot Brain Images
 Description: Plotting brain images with ggplot2 using 'nifti' objects.  Useful
     for integrating with a tidy image framework.
 Version: 0.1.2
-Authors@R: c(person(given = "Aaron", family = "Fisher", email = "fisher@jhu.edu",
+Authors@R: c(person(given = "Aaron", family = "Fisher", email = "afishe27@alumni.jh.edu",
     role = c("aut", "cre")),
     person(given = "John", family = "Muschelli", role = c("ctb")))
-Maintainer: Aaron Fisher <fisher@jhu.edu>
+Maintainer: Aaron Fisher <afishe27@alumni.jh.edu>
 VignetteBuilder: knitr
 Depends:
     R (>= 3.0.2)
